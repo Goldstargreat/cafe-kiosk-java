@@ -23,7 +23,7 @@ Java를 활용한 키오스크 프로그램 설계 및 구현
 🧑‍💻 실행 방법
 본 리포지토리를 clone 받습니다.
 
-git clone https://github.com/사용자명/프로젝트명.git
+git clone https://github.com/Goldstargreat/cafe-kiosk-java/git
 
 Java IDE (e.g., Eclipse, IntelliJ) 또는 터미널에서 .java 파일 실행
 javac Main.java
