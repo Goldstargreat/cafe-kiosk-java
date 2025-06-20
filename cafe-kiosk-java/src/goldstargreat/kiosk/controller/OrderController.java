@@ -14,7 +14,7 @@ public class OrderController {
     public void processOrder(int choice) {
         MenuItem selectedItem = null;
 
-        // 간단한 메뉴 번호로 아이템 선택 예시
+        // 메뉴 번호로 아이템 선택
         switch (choice) {
             case 1:
                 selectedItem = new MenuItem("아메리카노", 3000);
@@ -23,14 +23,12 @@ public class OrderController {
                 selectedItem = new MenuItem("카페라떼", 3500);
                 break;
             default:
-                System.out.println("잘못된 선택입니다.");
+                System.out.println("⚠ 메뉴에 없는 번호입니다.");
                 return;
         }
 
-        List<MenuItem> items = new ArrayList<>();
-        items.add(selectedItem);
-
-        Order order = new Order(items);
+        // 선택된 아이템으로 주문 생성
+        Order order = new Order(selectedItem);
         resultView.showOrderResult(order);
     }
 }

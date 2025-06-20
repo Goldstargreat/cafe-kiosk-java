@@ -1,38 +1,27 @@
 package goldstargreat.kiosk.model;
-import java.util.List;
 
 public class Order {
-    private List<MenuItem> items;  // 주문한 메뉴 목록
-    private int totalPrice;        // 총 가격
+    private MenuItem item;  // 주문한 단일 메뉴
+    private int totalPrice; // 총 가격
 
-    public Order(List<MenuItem> items) {
-        this.items = items;
-        calculateTotalPrice();
+    public Order(MenuItem item) {
+        this.item = item;
+        this.totalPrice = item.getPrice();
     }
 
-    private void calculateTotalPrice() {
-        int sum = 0;
-        for (MenuItem item : items) {
-            sum += item.getPrice();
-        }
-        this.totalPrice = sum;
-    }
-
-    public List<MenuItem> getItems() {
-        return items;
+    public MenuItem getItem() {
+        return item;
     }
 
     public int getTotalPrice() {
         return totalPrice;
     }
 
+    // 주문 내역을 보기 쉽게 문자열로 반환
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("주문 내역:\n");
-        for (MenuItem item : items) {
-            sb.append("- ").append(item.getName()).append(": ").append(item.getPrice()).append("원\n");
-        }
-        sb.append("총 합계: ").append(totalPrice).append("원");
-        return sb.toString();
+        return "주문 내역:\n" +
+                "- " + item.getName() + ": " + item.getPrice() + "원\n" +
+                "총 합계: " + totalPrice + "원";
     }
 }
