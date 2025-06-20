@@ -1,19 +1,23 @@
 package goldstargreat.kiosk.controller;
 
-import goldstargreat.kiosk.view.MenuView;
+import goldstargreat.kiosk.model.MenuItem;
+import goldstargreat.kiosk.model.Order;
+import goldstargreat.kiosk.model.User;
+import goldstargreat.kiosk.view.KioskView; // KioskView를 사용합니다.
 
 public class MainController {
-    private final MenuView menuView = new MenuView();
+    // 이제 View는 KioskView 단 하나입니다.
+    private final KioskView kioskView = new KioskView();
 
     public void start() {
-        menuView.showWelcomeMessage();
+        kioskView.showWelcomeMessage();
 
-        // --- 1. 회원 여부 확인 ---
+        // 1. 회원 여부 확인
         System.out.println("회원 여부를 선택해주세요.");
         System.out.println("1. 회원  |  2. 비회원");
         User user;
         while (true) {
-            int userChoice = menuView.getUserChoice();
+            int userChoice = kioskView.getUserInput(); // 모든 입력은 getUserInput()으로 처리
             if (userChoice == 1) {
                 user = new User(true);
                 break;
@@ -25,51 +29,36 @@ public class MainController {
             }
         }
 
-        // --- 2. 장바구니에 메뉴 담기 ---
+        // 2. 장바구니에 메뉴 담기
         Order cart = new Order();
         while (true) {
-            menuView.showMenu();
-            int choice = menuView.getUserChoice();
+            kioskView.showMenu();
+            int choice = kioskView.getUserInput();
 
             if (choice == 1) {
-                MenuItem americano = new MenuItem("아메리카노", 3000);
-                cart.addItem(americano);
+                cart.addItem(new MenuItem("아메리카노", 3000));
                 System.out.println("✅ 아메리카노를 장바구니에 담았습니다.");
             } else if (choice == 2) {
-                MenuItem latte = new MenuItem("카페라떼", 3500);
-                cart.addItem(latte);
+                cart.addItem(new MenuItem("카페라떼", 3500));
                 System.out.println("✅ 카페라떼를 장바구니에 담았습니다.");
             } else if (choice == 0) {
-                // 0번 '결제하기'를 누르면 반복문 탈출
                 break;
             } else {
                 System.out.println("⚠ 메뉴에 있는 번호를 입력해주세요.");
             }
         }
 
-        // --- 3. 결제 진행 ---
+        // 3. 결제 진행
         if (cart.getItemCount() == 0) {
             System.out.println("\n장바구니가 비어있어 주문을 종료합니다.");
         } else {
-            System.out.println("\n--- 최종 주문 내역 ---");
-            System.out.println(cart.toString()); // 장바구니 내용 모두 출력
+            kioskView.showOrderDetails(cart, user);
+            kioskView.showPaymentChoice();
 
-            int finalPrice = cart.getTotalPrice();
-            if (user.isMember()) {
-                System.out.println("\n✨ 회원 혜택! 10% 할인이 적용됩니다.");
-                finalPrice = (int) (finalPrice * 0.9); // 10% 할인
-            }
-
-            System.out.println("\n💳 최종 결제 금액: " + finalPrice + "원");
-
-            System.out.println("결제 수단을 선택해주세요 (1. 카드 / 2. 현금)");
             while (true) {
-                int paymentChoice = menuView.getUserChoice();
-                if (paymentChoice == 1) {
-                    System.out.println("\n🎉 카드로 결제가 완료되었습니다.");
-                    break;
-                } else if (paymentChoice == 2) {
-                    System.out.println("\n🎉 현금으로 결제가 완료되었습니다.");
+                int paymentChoice = kioskView.getUserInput();
+                if (paymentChoice == 1 || paymentChoice == 2) {
+                    kioskView.showPaymentResult(paymentChoice);
                     break;
                 } else {
                     System.out.println("⚠ 1 또는 2를 입력해주세요.");
@@ -77,8 +66,8 @@ public class MainController {
             }
         }
 
-        // --- 4. 마무리 ---
-        menuView.showGoodbyeMessage();
-        menuView.closeScanner();
+        // 4. 마무리
+        kioskView.showGoodbyeMessage();
+        kioskView.closeScanner(); // Scanner도 한 번만 닫아주면 됩니다.
     }
 }
