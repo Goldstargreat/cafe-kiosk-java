@@ -23,7 +23,10 @@ public class KioskView {
     public void showMenu() {
         System.out.println("\n===== 메뉴를 선택해주세요 =====");
         System.out.println("1. 아메리카노 : 3000원");
-        System.out.println("2. 카페라떼 : 3500원");
+        System.out.println("3. 카페라떼 : 3500원");
+        System.out.println("4. 카푸치노 : 3500원");
+        System.out.println("5. 바닐라라떼 : 3500원");
+        System.out.println("6. 돌체라떼 : 3500원");
         System.out.println("-------------------------");
         System.out.println("0. 결제하기");
         System.out.println("===========================");
