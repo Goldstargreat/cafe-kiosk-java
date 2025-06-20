@@ -6,7 +6,6 @@ import goldstargreat.kiosk.model.User;
 import goldstargreat.kiosk.view.KioskView; // KioskView를 사용합니다.
 
 public class MainController {
-    // 이제 View는 KioskView 단 하나입니다.
     private final KioskView kioskView = new KioskView();
 
     public void start() {
