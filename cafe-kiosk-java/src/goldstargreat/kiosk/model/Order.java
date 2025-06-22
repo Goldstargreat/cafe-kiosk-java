@@ -46,7 +46,7 @@ public class Order {
             result += "- " + items[i].getName() + ": " + items[i].getPrice() + "원\n";
         }
         result = result + "--------------------\n";
-        result += "총 합계: " + getTotalPrice() + "원";
+        result = result + "총 합계: " + getTotalPrice() + "원";
         return result;
     }
 }
