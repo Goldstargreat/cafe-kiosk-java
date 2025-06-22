@@ -31,7 +31,6 @@ public class MainController {
             kioskView.showMenu();
             int choice = kioskView.getUserInput();
 
-            // --- ★★★ 길었던 if-else if 문이 이렇게 짧아졌습니다 ★★★ ---
             if (choice > 0 && choice <= kioskView.getMenuSize()) {
                 // 1. KioskView에서 선택한 번호에 맞는 메뉴 아이템을 가져옵니다.
                 MenuItem selectedItem = kioskView.getMenuItem(choice);
@@ -63,7 +62,7 @@ public class MainController {
             }
         }
 
-        // 4. 마무리 인사 (이전과 동일)
+        // 4. 마무리 인사
         kioskView.showGoodbyeMessage();
         kioskView.closeScanner();
     }

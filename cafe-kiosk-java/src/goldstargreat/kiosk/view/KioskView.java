@@ -22,9 +22,9 @@ public class KioskView {
         System.out.println("⭐ GoldStar 카페에 오신 것을 환영합니다! ⭐\n");
     }
 
-    // 메뉴판 자동 출력
+    // 메뉴판 출력
     public void showMenu() {
-        System.out.println("\n===== 메뉴를 선택해주세요 =====");
+        System.out.println("\n===== 메뉴를 선택해주세요. =====");
         for (int i = 0; i < menuItems.length; i++) {
             System.out.println((i + 1) + ". " + menuItems[i].getName() + " : " + menuItems[i].getPrice() + "원");
         }

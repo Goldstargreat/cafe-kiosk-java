@@ -27,7 +27,7 @@ public class Order {
 
     // 전체 가격 계산
     public int getTotalPrice() {
-        int sum = 0;
+        int sum = 0; //처음에는 결제할 금액이 없으므로
         // 배열에 담긴 개수(itemCount)까지만 반복문 실행
         for (int i = 0; i < itemCount; i++) {
             sum += items[i].getPrice();
@@ -45,7 +45,7 @@ public class Order {
         for (int i = 0; i < itemCount; i++) {
             result += "- " + items[i].getName() + ": " + items[i].getPrice() + "원\n";
         }
-        result += "--------------------\n";
+        result = result + "--------------------\n";
         result += "총 합계: " + getTotalPrice() + "원";
         return result;
     }
