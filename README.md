@@ -31,8 +31,7 @@ Java를 활용한 키오스크 프로그램 설계 및 구현
 git clone https://github.com/Goldstargreat/cafe-kiosk-java
 
 Java IDE (e.g., Eclipse, IntelliJ) 또는 터미널에서 .java 파일 실행
-javac Main.java
-java Main
+
 
 🔍 실행 결과
 주요 실행 결과를 나타낸 화면은 보고서의 캡처 화면 섹션에 포함되어 있습니다.
