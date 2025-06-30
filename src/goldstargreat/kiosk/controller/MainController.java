@@ -41,7 +41,7 @@ public class MainController {
             } else if (choice == 0) { // 결제하기 (이전과 동일)
                 if (cart.getItemCount() == 0) {
                     System.out.println("❗ 장바구니가 비어있습니다. 메뉴를 먼저 담아주세요.");
-                    continue;
+                    continue; //다시 if문으로 올라간다.
                 }
 
                 kioskView.showOrderDetails(cart, user);

@@ -30,7 +30,7 @@ public class Order {
         int sum = 0; //처음에는 결제할 금액이 없으므로
         // 배열에 담긴 개수(itemCount)까지만 반복문 실행
         for (int i = 0; i < itemCount; i++) {
-            sum += items[i].getPrice();
+            sum = sum + items[i].getPrice();
         }
         return sum;
     }
@@ -43,7 +43,7 @@ public class Order {
         }
         String result = "--- 장바구니 내역 ---\n";
         for (int i = 0; i < itemCount; i++) {
-            result += "- " + items[i].getName() + ": " + items[i].getPrice() + "원\n";
+            result = result + "- " + items[i].getName() + ": " + items[i].getPrice() + "원\n";
         }
         result = result + "--------------------\n";
         result = result + "총 합계: " + getTotalPrice() + "원";
