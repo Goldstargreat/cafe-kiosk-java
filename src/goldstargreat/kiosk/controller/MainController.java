@@ -11,7 +11,7 @@ public class MainController {
     public void start() {
         kioskView.showWelcomeMessage();
 
-        // 1. 회원 여부 확인 (이전과 동일)
+        // 1. 회원 여부 확인 (루프의 시작)
         System.out.println("회원 여부를 선택해주세요. (1. 회원 | 2. 비회원)");
         User user;
         while (true) {
