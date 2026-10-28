@@ -1,69 +1,105 @@
 package goldstargreat.kiosk.controller;
 
+import goldstargreat.kiosk.model.Menu;
 import goldstargreat.kiosk.model.MenuItem;
 import goldstargreat.kiosk.model.Order;
 import goldstargreat.kiosk.model.User;
 import goldstargreat.kiosk.view.KioskView;
 
-public class MainController {
+// 프로그램의 흐름(순서)만 담당하는 클래스
+// 출력은 View에게, 데이터와 계산은 Model에게 맡깁니다.
+public class MainController
+{
     private final KioskView kioskView = new KioskView();
+    private final Menu menu = new Menu();
 
-    public void start() {
+    public void start()
+    {
         kioskView.showWelcomeMessage();
 
-        // 1. 회원 여부 확인 (루프의 시작)
-        System.out.println("회원 여부를 선택해주세요. (1. 회원 | 2. 비회원)");
-        User user;
-        while (true) {
-            int userChoice = kioskView.getUserInput();
-            if (userChoice == 1 || userChoice == 2) {
-                user = new User(userChoice == 1);
-                break;
-            } else {
-                System.out.println("⚠ 1 또는 2를 입력해주세요.");
-            }
-        }
+        // 1. 회원 여부 확인
+        User user = selectUser();
 
+        // 2. 메뉴 담기
         Order cart = new Order();
+        selectMenus(cart);
 
-        // 2. 메인 루프: 메뉴 담기와 결제 처리
-        while (true) {
-            kioskView.showMenu();
-            int choice = kioskView.getUserInput();
+        // 3. 주문 내역 확인 및 결제
+        kioskView.showOrderDetails(cart, user);
+        int paymentChoice = selectPayment();
+        kioskView.showPaymentResult(paymentChoice);
 
-            if (choice > 0 && choice <= kioskView.getMenuSize()) {
-                // 1. KioskView에서 선택한 번호에 맞는 메뉴 아이템을 가져옵니다.
-                MenuItem selectedItem = kioskView.getMenuItem(choice);
-                // 2. 장바구니에 추가합니다.
-                cart.addItem(selectedItem);
-                System.out.println("✅ " + selectedItem.getName() + "을(를) 장바구니에 담았습니다.");
-
-            } else if (choice == 0) { // 결제하기 (이전과 동일)
-                if (cart.getItemCount() == 0) {
-                    System.out.println("❗ 장바구니가 비어있습니다. 메뉴를 먼저 담아주세요.");
-                    continue; //다시 if문으로 올라간다.
-                }
-
-                kioskView.showOrderDetails(cart, user);
-                kioskView.showPaymentChoice();
-
-                while (true) {
-                    int paymentChoice = kioskView.getUserInput();
-                    if (paymentChoice == 1 || paymentChoice == 2) {
-                        kioskView.showPaymentResult(paymentChoice);
-                        break;
-                    } else {
-                        System.out.println("⚠ 1 또는 2를 입력해주세요.");
-                    }
-                }
-                break;
-            } else {
-                System.out.println("⚠ 메뉴에 있는 번호를 입력해주세요.");
-            }
-        }
-
-        // 4. 마무리 인사
+        // 4. 마무리
         kioskView.showGoodbyeMessage();
         kioskView.closeScanner();
+    }
+
+    // 회원 여부를 입력받아 User 객체를 만들어 반환
+    private User selectUser()
+    {
+        kioskView.showMemberChoice();
+        while (true)
+        {
+            int userChoice = kioskView.getUserInput();
+            if (userChoice == 1)
+            {
+                return new User(true);
+            } else if (userChoice == 2)
+            {
+                return new User(false);
+            }
+            kioskView.showInvalidChoice();
+        }
+    }
+
+    // 0(결제하기)을 누를 때까지 메뉴를 장바구니에 담기
+    private void selectMenus(Order cart)
+    {
+        while (true)
+        {
+            kioskView.showMenu(menu.getMenuItems());
+            int choice = kioskView.getUserInput();
+
+            if (choice == 0)
+            {
+                if (cart.isEmpty())
+                {
+                    kioskView.showCartEmpty();
+                    continue; // 다시 메뉴판으로
+                }
+                return; // 결제 단계로 이동
+            }
+
+            MenuItem selectedItem = menu.getMenuItem(choice);
+            if (selectedItem == null)
+            {
+                kioskView.showInvalidMenu();
+                continue;
+            }
+
+            boolean added = cart.addItem(selectedItem);
+            if (added)
+            {
+                kioskView.showItemAdded(selectedItem);
+            } else
+            {
+                kioskView.showCartFull(cart.getMaxItems());
+            }
+        }
+    }
+
+    // 결제 수단(1. 카드 / 2. 현금)을 입력받아 반환
+    private int selectPayment()
+    {
+        kioskView.showPaymentChoice();
+        while (true)
+        {
+            int paymentChoice = kioskView.getUserInput();
+            if (paymentChoice == 1 || paymentChoice == 2)
+            {
+                return paymentChoice;
+            }
+            kioskView.showInvalidChoice();
+        }
     }
 }
